@@ -2,7 +2,6 @@ local Class = require 'lib.hump.class'
 local Vector = require 'lib.hump.vector-light'
 
 local Entity = require 'scripts.entities.entity'
-local Player = require 'scripts.entities.characters.player'
 
 local Base = Entity
 
@@ -23,15 +22,6 @@ function Car:update(dt)
   self.rotationSpeed = math.min(speed, 3)
 
   Base.update(self, dt)
-end
-
-function Car:handleInput(dt)
-  local oldRotation = self.rotation
-
-  Player.handleInput(self, dt)
-
-  local dr = self.rotation - oldRotation
-  self.vx, self.vy = Vector.rotate(dr, self.vx, self.vy)
 end
 
 function Car:draw()
