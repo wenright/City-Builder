@@ -7,6 +7,7 @@ local CameraInput = require 'scripts.camerainput'
 
 local Events = require 'scripts.events'
 local Economy = require 'scripts.economy'
+local ConstructionUi = require 'scripts.constructionui'
 
 local EntitySystem = require 'scripts.entitysystem'
 
@@ -20,6 +21,7 @@ function Game:init()
 
   self.events = Events()
   self.economy = Economy()
+  self.constructionUi = ConstructionUi()
 
   self.entities = EntitySystem()
 
@@ -33,6 +35,7 @@ function Game:update(dt)
 
   self.events:update(dt)
   self.economy:update(dt)
+  self.constructionUi:update(dt)
 
   self.entities:update(dt)
 end
@@ -40,12 +43,26 @@ end
 function Game:draw()
   self.entities:draw()
 
+  self.constructionUi:draw()
+
   -- Render all our models
   self.camera:render()
 end
 
 function Game:wheelmoved(x, y)
   self.cameraInput:scroll(x, y)
+end
+
+-- TODO place this into a different camera scripts
+-- Draws a plane on the ground that will rotate/scale/move with the camera
+function Game:drawPlane(x, y, w, h, color)
+  love.graphics.setColor(color or {255, 0, 0})
+  local x1, y1 = Game.camera:worldToScreen(x, y, 0)
+  local x2, y2 = Game.camera:worldToScreen(x + w, y, 0)
+  local x3, y3 = Game.camera:worldToScreen(x + w, y + h, 0)
+  local x4, y4 = Game.camera:worldToScreen(x, y + h, 0)
+
+  love.graphics.polygon('fill', x1, y1, x2, y2, x3, y3, x4, y4, x1, y1)
 end
 
 return Game

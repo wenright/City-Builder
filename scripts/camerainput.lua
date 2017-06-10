@@ -52,6 +52,7 @@ function CameraInput:update(dt)
 end
 
 function CameraInput:scroll(x, y)
+  -- TODO I think zooming is supposed to be * instead of +, eventually zoom will flip using +
   self.zoom = self.zoom + y / 10
   self.camera:zoomTo(self.zoom)
 end
