@@ -3,8 +3,10 @@ local Lovox = require 'lovox'
 local Bump = require 'lib.bump.bump'
 
 local Entity = require 'scripts.entities.entity'
-local Car = require 'scripts.entities.vehicles.car'
 local CameraInput = require 'scripts.camerainput'
+
+local Events = require 'scripts.events'
+local Economy = require 'scripts.economy'
 
 local EntitySystem = require 'scripts.entitysystem'
 
@@ -19,6 +21,9 @@ function Game:init()
 
   self.world = Bump.newWorld()
 
+  self.events = Events()
+  self.economy = Economy()
+
   self.entities = EntitySystem()
 
   self.entities:add(Entity({x = 50, y = 0, model = 'obj_statue1'}))
@@ -28,6 +33,10 @@ end
 
 function Game:update(dt)
   self.cameraInput:update(dt)
+
+  self.events:update(dt)
+  self.economy:update(dt)
+
   self.entities:update(dt)
 end
 
