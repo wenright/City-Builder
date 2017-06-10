@@ -47,6 +47,8 @@ function CameraInput:update(dt)
   -- Multiply by move speed and delta time to get final movement step
   local mx, my = Vector.mul(dt * self.moveSpeed, rdxn, rdyn)
 
+  -- TODO movement speed should be increased when zoomed out
+
   -- Move camera
   self.camera:move(mx, my)
 end
