@@ -16,9 +16,6 @@ function Game:init()
   self.camera = Lovox.camera
   self.cameraInput = CameraInput({camera = self.camera})
 
-  self.zoom = 5
-  self.camera:zoom(self.zoom)
-
   self.world = Bump.newWorld()
 
   self.events = Events()
@@ -45,6 +42,10 @@ function Game:draw()
 
   -- Render all our models
   self.camera:render()
+end
+
+function Game:wheelmoved(x, y)
+  self.cameraInput:scroll(x, y)
 end
 
 return Game

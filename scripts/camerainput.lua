@@ -10,9 +10,15 @@ function CameraInput:init(properties)
 
   self.rotateSpeed = 2
   self.moveSpeed = 100
+
+  self.zoom = 5
+  self.camera:zoomTo(self.zoom)
 end
 
 function CameraInput:update(dt)
+  --- Camera zoom
+
+
   --- Camera rotation
   if love.keyboard.isDown('q') then
     self.camera:rotate(self.rotateSpeed * dt)
@@ -43,6 +49,11 @@ function CameraInput:update(dt)
 
   -- Move camera
   self.camera:move(mx, my)
+end
+
+function CameraInput:scroll(x, y)
+  self.zoom = self.zoom + y / 10
+  self.camera:zoomTo(self.zoom)
 end
 
 return CameraInput
