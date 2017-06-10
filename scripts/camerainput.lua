@@ -13,7 +13,7 @@ function CameraInput:init(properties)
 end
 
 function CameraInput:update(dt)
-  -- Camera rotation
+  --- Camera rotation
   if love.keyboard.isDown('q') then
     self.camera:rotate(self.rotateSpeed * dt)
   end
@@ -23,24 +23,14 @@ function CameraInput:update(dt)
   end
 
 
-  -- Camera movement
+  --- Camera movement
   local dx, dy = 0, 0
 
-  if love.keyboard.isDown('a') then
-    dx = -1
-  end
-
-  if love.keyboard.isDown('d') then
-    dx = 1
-  end
-
-  if love.keyboard.isDown('w') then
-    dy = -1
-  end
-
-  if love.keyboard.isDown('s') then
-    dy = 1
-  end
+  -- Get input from keyboard to initialize movement vector
+  if love.keyboard.isDown('a') then dx = -1 end
+  if love.keyboard.isDown('d') then dx = 1 end
+  if love.keyboard.isDown('w') then dy = -1 end
+  if love.keyboard.isDown('s') then dy = 1 end
 
   -- Rotate vector according to camera rotation
   local rdx, rdy = Vector.rotate(-self.camera.rotation, dx, dy)
