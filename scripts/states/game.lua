@@ -55,8 +55,7 @@ end
 
 -- TODO place this into a different camera scripts
 -- Draws a plane on the ground that will rotate/scale/move with the camera
-function Game:drawPlane(x, y, w, h, color)
-  love.graphics.setColor(color or {255, 0, 0})
+function Game:drawPlane(x, y, w, h)
   local x1, y1 = Game.camera:worldToScreen(x, y, 0)
   local x2, y2 = Game.camera:worldToScreen(x + w, y, 0)
   local x3, y3 = Game.camera:worldToScreen(x + w, y + h, 0)

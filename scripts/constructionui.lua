@@ -10,8 +10,11 @@ function ConstructionUi:init(properties)
 
   self.mx, self.my = 0, 0
   self.w, self.h = 50, 50
+
+  self.canPlace = false
 end
 
+-- TODO querying works, but uses an arbitrary w/h. Use w/h of actual model to be placed
 function ConstructionUi:update(dt)
   self.timer:update(dt)
 
@@ -24,10 +27,17 @@ function ConstructionUi:update(dt)
   end
 
   if self.selectedBuilding ~= nil then
-    if love.mouse.isDown(1) then
+    local x, y = self:getMousePosition()
+
+    self.canPlace = true
+    local items, len = Game.world:queryRect(x, y, self.w, self.h)
+    if len > 0 then
+      self.canPlace = false
+    end
+
+    if love.mouse.isDown(1) and self.canPlace then
       love.graphics.setColor(255, 255, 255)
 
-      local x, y = self:getMousePosition()
       Game.entities:add(Entity({x = x, y = y, model = 'obj_store04'}))
 
       self.selectedBuilding = nil
@@ -38,6 +48,14 @@ end
 function ConstructionUi:draw()
   if self.selectedBuilding ~= nil then
     local x, y = self:getMousePosition()
+
+    local color = {255, 0, 0}
+    if self.canPlace then
+      color = {0, 255, 0}
+    end
+
+    love.graphics.setColor(color)
+
     Game:drawPlane(x, y, self.w, self.h)
   end
 end
