@@ -26,7 +26,7 @@ function Game:init()
   self.entities = EntitySystem()
 
   self.entities:add(Entity({x = 50, y = 0, model = 'obj_statue1'}))
-  self.entities:add(Entity({x = 50, y = 100, model = 'obj_store06'}))
+  -- self.entities:add(Entity({x = 50, y = 100, model = 'obj_store06'}))
   self.entities:add(Entity({x = 150, y = 100, model = 'obj_store10'}))
 end
 

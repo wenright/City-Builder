@@ -1,7 +1,7 @@
 local Class = require 'lib.hump.class'
 local Timer = require 'lib.hump.timer'
 
-local Entity = require 'scripts.entities.entity'
+local PizzaShop = require 'scripts.entities.buildings.pizzashop'
 
 local ConstructionUi = Class {}
 
@@ -38,7 +38,7 @@ function ConstructionUi:update(dt)
     if love.mouse.isDown(1) and self.canPlace then
       love.graphics.setColor(255, 255, 255)
 
-      Game.entities:add(Entity({x = x, y = y, model = 'obj_store04'}))
+      Game.entities:add(PizzaShop({x = x, y = y}))
 
       self.selectedBuilding = nil
     end
