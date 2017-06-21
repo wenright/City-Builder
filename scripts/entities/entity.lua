@@ -21,19 +21,6 @@ local Entity = Class {__includes = Base}
 function Entity:init(properties)
   Base.init(self, properties)
 
-  assert(properties.model, 'Attempted to instantiate an entitiy without a model')
-  assert(type(properties.model) == 'string', 'Entity\'s model paramater must be a string')
-
-  -- Load a model from a .vox file
-  local fileString = 'models/' .. properties.model .. '.vox'
-  assert(love.filesystem.exists(fileString), 'Voxel file \'' .. fileString .. '\' does not exist')
-  local voxelFile = love.filesystem.newFile(fileString)
-  print('Loading ' .. fileString)
-  local modelData = ModelData.newFromVox(voxelFile)
-  local model = Model(modelData)
-
-  self.model = model
-
   self.rotation = properties.rotation or 0
 
   self.vx, self.vy = 0, 0
@@ -105,6 +92,21 @@ function Entity:draw()
 
   love.graphics.polygon('fill', x1, y1, x2, y2, x3, y3, x4, y4, x1, y1)
   ]]
+end
+
+function Entity.loadModel(modelName)
+  assert(modelName, 'Attempted to instantiate an entitiy without a model')
+  assert(type(modelName) == 'string', 'Entity\'s model paramater must be a string')
+
+  -- Load a model from a .vox file
+  local fileString = 'models/' .. modelName .. '.vox'
+  assert(love.filesystem.exists(fileString), 'Voxel file \'' .. fileString .. '\' does not exist')
+  local voxelFile = love.filesystem.newFile(fileString)
+  print('Loading ' .. fileString)
+  local modelData = ModelData.newFromVox(voxelFile)
+  local model = Model(modelData)
+
+  return model
 end
 
 return Entity

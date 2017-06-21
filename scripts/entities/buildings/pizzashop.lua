@@ -5,12 +5,17 @@ local Building = require 'scripts.entities.buildings.building'
 
 local Base = Building
 
-local PizzaShop = Class {__includes = Base}
+local model = Entity.loadModel('obj_store10')
+
+local PizzaShop = Class {
+  __includes = Base,
+  model = model
+}
 
 function PizzaShop:init(properties)
-  properties.model = 'obj_store10'
-
   Base.init(self, properties)
+
+  self.model = PizzaShop.model
 
   self.type = 'PizzaShop'
 end
