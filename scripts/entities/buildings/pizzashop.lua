@@ -15,7 +15,8 @@ local PizzaShop = Class {
 function PizzaShop:init(properties)
   Base.init(self, properties)
 
-  self.model = PizzaShop.model
+  -- TODO use the already loaded model. Is it possible to clone the loaded model? currenlty only 1 would draw
+  self.model = Entity.loadModel('obj_store10')
 
   self.type = 'PizzaShop'
 end

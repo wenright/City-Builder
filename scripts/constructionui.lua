@@ -23,7 +23,8 @@ function ConstructionUi:update(dt)
   if love.keyboard.isDown('1') then
     -- TODO select some building type
     -- TODO Building class
-    self.selectedBuilding = 1
+    self.selectedBuilding = PizzaShop
+    self.w, self.h = self.selectedBuilding.model.width, self.selectedBuilding.model.height
   end
 
   if self.selectedBuilding ~= nil then
