@@ -63,8 +63,18 @@ end
 
 -- Returns the mouse position in terms of world coordinates
 function ConstructionUi:getMousePosition()
+  -- Convert mouse coordinates into world coordinates
   local x, y = Game.camera:screenToWorld(self.mx, self.my)
-  return x - self.w / 2, y - self.h / 2
+
+  -- Center x/y coords
+  x = x - self.w / 2
+  y = y - self.h / 2
+
+  -- Break the coordinates into multiples of 10
+  x = x - (x % 10)
+  y = y - (y % 10)
+
+  return x, y
 end
 
 return ConstructionUi
