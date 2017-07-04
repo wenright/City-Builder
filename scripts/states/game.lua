@@ -51,13 +51,17 @@ end
 
 -- TODO place this into a different camera scripts
 -- Draws a plane on the ground that will rotate/scale/move with the camera
-function Game:drawPlane(x, y, w, h)
+function Game:drawPlane(x, y, w, h, r)
+  Game.camera:rotate(r or 0)
+
   local x1, y1 = Game.camera:worldToScreen(x, y, 0)
   local x2, y2 = Game.camera:worldToScreen(x + w, y, 0)
   local x3, y3 = Game.camera:worldToScreen(x + w, y + h, 0)
   local x4, y4 = Game.camera:worldToScreen(x, y + h, 0)
 
   love.graphics.polygon('fill', x1, y1, x2, y2, x3, y3, x4, y4, x1, y1)
+
+  Game.camera:rotate(-r or 0)
 end
 
 return Game

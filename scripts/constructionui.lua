@@ -11,14 +11,26 @@ function ConstructionUi:init(properties)
   self.mx, self.my = 0, 0
   self.w, self.h = 50, 50
 
+  self.rotation = 0
+  self.canRotate = true
+
   self.canPlace = false
 end
 
--- TODO querying works, but uses an arbitrary w/h. Use w/h of actual model to be placed
 function ConstructionUi:update(dt)
   self.timer:update(dt)
 
   self.mx, self.my = love.mouse.getPosition()
+
+  if love.keyboard.isDown('r') then
+    if self.canRotate then
+      self.canRotate = false
+      -- TODO use love.onbuttondown
+      self.timer:after(0.5, function() self.canRotate = true end)
+
+      self.rotation = self.rotation + math.pi / 2
+    end
+  end
 
   if love.keyboard.isDown('1') then
     -- TODO select some building type
@@ -31,7 +43,17 @@ function ConstructionUi:update(dt)
     local x, y = self:getMousePosition()
 
     self.canPlace = true
-    local items, len = Game.world:queryRect(x, y, self.w, self.h)
+
+    local items, len
+
+    local roundedCosine = math.floor(math.cos(self.rotation) + 0.5)
+
+    if roundedCosine == 0 then
+      items, len = Game.world:queryRect(x, y, self.w, self.h)
+    else
+      items, len = Game.world:queryRect(x, y, self.h, self.w)
+    end
+
     if len > 0 then
       self.canPlace = false
     end
@@ -39,7 +61,7 @@ function ConstructionUi:update(dt)
     if love.mouse.isDown(1) and self.canPlace then
       love.graphics.setColor(255, 255, 255)
 
-      Game.entities:add(PizzaShop({x = x, y = y}))
+      Game.entities:add(PizzaShop({x = x, y = y, rotation = self.rotation}))
 
       self.selectedBuilding = nil
     end
@@ -57,12 +79,15 @@ function ConstructionUi:draw()
 
     love.graphics.setColor(color)
 
-    Game:drawPlane(x, y, self.w, self.h)
+    Game:drawPlane(x, y, self.w, self.h, self.rotation)
   end
 end
 
 -- Returns the mouse position in terms of world coordinates
 function ConstructionUi:getMousePosition()
+  -- Apply given rotation first
+  Game.camera:rotate(self.rotation)
+
   -- Convert mouse coordinates into world coordinates
   local x, y = Game.camera:screenToWorld(self.mx, self.my)
 
@@ -71,8 +96,13 @@ function ConstructionUi:getMousePosition()
   y = y - self.h / 2
 
   -- Break the coordinates into multiples of 10
-  x = x - (x % 10)
-  y = y - (y % 10)
+  local gridSize = 10
+
+  x = x - (x % gridSize) + gridSize / 2
+  y = y - (y % gridSize) + gridSize / 2
+
+  -- Revert rotation
+  Game.camera:rotate(-self.rotation)
 
   return x, y
 end
