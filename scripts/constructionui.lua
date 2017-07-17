@@ -49,9 +49,9 @@ function ConstructionUi:update(dt)
     local roundedCosine = math.floor(math.cos(self.rotation) + 0.5)
 
     if roundedCosine == 0 then
-      items, len = Game.world:queryRect(x, y, self.w, self.h)
-    else
       items, len = Game.world:queryRect(x, y, self.h, self.w)
+    else
+      items, len = Game.world:queryRect(x, y, self.w, self.h)
     end
 
     if len > 0 then
@@ -85,24 +85,23 @@ end
 
 -- Returns the mouse position in terms of world coordinates
 function ConstructionUi:getMousePosition()
-  -- Apply given rotation first
-  Game.camera:rotate(self.rotation)
-
   -- Convert mouse coordinates into world coordinates
   local x, y = Game.camera:screenToWorld(self.mx, self.my)
 
-  -- Center x/y coords
-  x = x - self.w / 2
-  y = y - self.h / 2
+	-- Center x/y coords
+	-- x = x - self.w / 2
+	-- y = y - self.h / 2
+
+	local roundedCosine = math.floor(math.cos(self.rotation) + 0.5)
+	if roundedCosine == 0 then
+		x, y = y, -x
+	end
 
   -- Break the coordinates into multiples of 10
-  local gridSize = 10
-
-  x = x - (x % gridSize) + gridSize / 2
-  y = y - (y % gridSize) + gridSize / 2
-
-  -- Revert rotation
-  Game.camera:rotate(-self.rotation)
+  -- local gridSize = 10
+  --
+  -- x = x - (x % gridSize) + gridSize / 2
+  -- y = y - (y % gridSize) + gridSize / 2
 
   return x, y
 end

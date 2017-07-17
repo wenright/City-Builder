@@ -77,21 +77,6 @@ end
 
 function Entity:draw()
   self.model:draw(self.x, self.y, self.z, self.rotation, self.scale, self.scale)
-
-  -- Draw the entity's shadow
-  --[[
-  love.graphics.setColor(25, 25, 25, 25)
-  local x, y, w, h = Game.world:getRect(self)
-
-  Game.camera:rotate(self.rotation)
-  local x1, y1 = Game.camera:worldToScreen(x, y, 0)
-  local x2, y2 = Game.camera:worldToScreen(x + w, y, 0)
-  local x3, y3 = Game.camera:worldToScreen(x + w, y + h, 0)
-  local x4, y4 = Game.camera:worldToScreen(x, y + h, 0)
-  Game.camera:rotate(-self.rotation)
-
-  love.graphics.polygon('fill', x1, y1, x2, y2, x3, y3, x4, y4, x1, y1)
-  ]]
 end
 
 function Entity.loadModel(modelName)
