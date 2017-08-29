@@ -79,7 +79,9 @@ function ConstructionUi:draw()
 
     love.graphics.setColor(color)
 
-    Game:drawPlane(x, y, self.w, self.h, self.rotation)
+    local roundedCosine = math.floor(math.cos(self.rotation) + 0.5)
+
+    Game:drawPlane(x, y, self.w, self.h, math.acos(roundedCosine))
   end
 end
 
@@ -89,13 +91,18 @@ function ConstructionUi:getMousePosition()
   local x, y = Game.camera:screenToWorld(self.mx, self.my)
 
 	-- Center x/y coords
-	-- x = x - self.w / 2
-	-- y = y - self.h / 2
+	x = x - self.w / 2
+	y = y - self.h / 2
 
 	local roundedCosine = math.floor(math.cos(self.rotation) + 0.5)
+  print(roundedCosine)
 	if roundedCosine == 0 then
 		x, y = y, -x
 	end
+
+  if roundedCosine == -1 then
+    x, y = -x, -y
+  end
 
   -- Break the coordinates into multiples of 10
   -- local gridSize = 10
