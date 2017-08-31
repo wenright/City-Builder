@@ -26,7 +26,7 @@ function ConstructionUi:update(dt)
     -- TODO select some building type
     -- TODO Building class
     self.selectedBuilding = PizzaShop
-    self.w, self.h = self.selectedBuilding.model.width, self.selectedBuilding.model.height
+    self.w, self.h = self.selectedBuilding.width, self.selectedBuilding.height
   end
 
   if self.selectedBuilding ~= nil then

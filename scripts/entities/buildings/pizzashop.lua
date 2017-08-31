@@ -5,18 +5,19 @@ local Building = require 'scripts.entities.buildings.building'
 
 local Base = Building
 
-local model = Entity.loadModel('obj_store10')
+local modelData = Entity.loadModelData('obj_store10')
 
 local PizzaShop = Class {
   __includes = Base,
-  model = model
+  modelData = modelData,
+  width = modelData.width,
+  height = modelData.height
 }
 
 function PizzaShop:init(properties)
   Base.init(self, properties)
 
-  -- TODO use the already loaded model. Is it possible to clone the loaded model? currenlty only 1 would draw
-  self.model = Entity.loadModel('obj_store10')
+  self.model = Entity.modelDataToModel(self.modelData)
 
   self.type = 'PizzaShop'
 end
