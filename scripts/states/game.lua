@@ -14,6 +14,8 @@ local EntitySystem = require 'scripts.entitysystem'
 local Game = {}
 
 function Game:init()
+  love.graphics.setBackgroundColor(187, 206, 138)
+
   self.camera = Lovox.camera
   self.cameraInput = CameraInput({camera = self.camera})
 

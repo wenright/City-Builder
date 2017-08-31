@@ -2,6 +2,7 @@ local Class = require 'lib.hump.class'
 local Timer = require 'lib.hump.timer'
 
 local PizzaShop = require 'scripts.entities.buildings.pizzashop'
+local TestBuilding = require 'scripts.entities.buildings.testbuilding'
 
 local ConstructionUi = Class {}
 
@@ -26,10 +27,13 @@ function ConstructionUi:update(dt)
     -- TODO select some building type
     -- TODO Building class
     self.selectedBuilding = PizzaShop
-    self.w, self.h = self.selectedBuilding.width, self.selectedBuilding.height
+  elseif love.keyboard.isDown('2') then
+    self.selectedBuilding = TestBuilding
   end
 
   if self.selectedBuilding ~= nil then
+    self.w, self.h = self.selectedBuilding.width, self.selectedBuilding.height
+
     local x, y = self:getMousePosition()
 
     self.canPlace = true
@@ -41,7 +45,7 @@ function ConstructionUi:update(dt)
     if love.mouse.isDown(1) and self.canPlace then
       love.graphics.setColor(255, 255, 255)
 
-      Game.entities:add(PizzaShop({x = x, y = y}))
+      Game.entities:add(self.selectedBuilding({x = x, y = y}))
 
       self.selectedBuilding = nil
     end
