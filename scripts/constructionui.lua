@@ -9,7 +9,9 @@ function ConstructionUi:init(properties)
   self.timer = Timer.new()
 
   self.mx, self.my = 0, 0
-  self.w, self.h = 50, 50
+  self.w, self.h = 64, 64
+
+  self.blockSize = 32
 
   self.canPlace = false
 end
@@ -67,12 +69,12 @@ function ConstructionUi:getMousePosition()
   local x, y = Game.camera:screenToWorld(self.mx, self.my)
 
   -- Center x/y coords
-  x = x - self.w / 2
-  y = y - self.h / 2
+  x = x - self.w / 2 + self.blockSize / 2
+  y = y - self.h / 2 + self.blockSize / 2
 
   -- Break the coordinates into multiples of 10
-  x = x - (x % 10)
-  y = y - (y % 10)
+  x = x - (x % self.blockSize)
+  y = y - (y % self.blockSize)
 
   return x, y
 end
