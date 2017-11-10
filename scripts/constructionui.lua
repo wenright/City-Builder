@@ -2,6 +2,11 @@ local Class = require 'lib.hump.class'
 local Timer = require 'lib.hump.timer'
 
 local PizzaShop = require 'scripts.entities.buildings.pizzashop'
+local Bank = require 'scripts.entities.buildings.bank'
+local Apartment = require 'scripts.entities.buildings.apartment'
+local Grocery = require 'scripts.entities.buildings.grocery'
+local TestBuilding = require 'scripts.entities.buildings.testbuilding'
+local Street = require 'scripts.entities.buildings.street'
 
 local ConstructionUi = Class {}
 
@@ -36,7 +41,18 @@ function ConstructionUi:update(dt)
     -- TODO select some building type
     -- TODO Building class
     self.selectedBuilding = PizzaShop
+<<<<<<< Updated upstream
     self.w, self.h = self.selectedBuilding.model.width, self.selectedBuilding.model.height
+=======
+  elseif love.keyboard.isDown('2') then
+    self.selectedBuilding = Bank
+  elseif love.keyboard.isDown('3') then
+    self.selectedBuilding = Apartment
+  elseif love.keyboard.isDown('4') then
+    self.selectedBuilding = Grocery
+  elseif love.keyboard.isDown('5') then
+    self.selectedBuilding = Street
+>>>>>>> Stashed changes
   end
 
   if self.selectedBuilding ~= nil then
@@ -72,9 +88,11 @@ function ConstructionUi:draw()
   if self.selectedBuilding ~= nil then
     local x, y = self:getMousePosition()
 
-    local color = {255, 0, 0}
+    local color = nil
     if self.canPlace then
-      color = {0, 255, 0}
+      color = {101, 142, 156}
+    else
+      color = {232, 116, 97}
     end
 
     love.graphics.setColor(color)
