@@ -27,7 +27,7 @@ function Entity:init(properties)
   self.friction = 0.99
   self.scale = 1
 
-  local w, h = self.model.width, self.model.height
+  local w, h = self.width, self.height
 
   self.disableCollider = properties.disableCollider or false
 
@@ -77,9 +77,22 @@ end
 
 function Entity:draw()
   self.model:draw(self.x, self.y, self.z, self.rotation, self.scale, self.scale)
+
+  -- Draw the entity's shadow
+  love.graphics.setColor(25, 25, 25, 25)
+  local x, y, w, h = Game.world:getRect(self)
+
+  Game.camera:rotate(self.rotation)
+  local x1, y1 = Game.camera:worldToScreen(x, y, 0)
+  local x2, y2 = Game.camera:worldToScreen(x + w, y, 0)
+  local x3, y3 = Game.camera:worldToScreen(x + w, y + h, 0)
+  local x4, y4 = Game.camera:worldToScreen(x, y + h, 0)
+  Game.camera:rotate(-self.rotation)
+
+  love.graphics.polygon('fill', x1, y1, x2, y2, x3, y3, x4, y4, x1, y1)
 end
 
-function Entity.loadModel(modelName)
+function Entity.loadModelData(modelName)
   assert(modelName, 'Attempted to instantiate an entitiy without a model')
   assert(type(modelName) == 'string', 'Entity\'s model paramater must be a string')
 
@@ -89,9 +102,16 @@ function Entity.loadModel(modelName)
   local voxelFile = love.filesystem.newFile(fileString)
   print('Loading ' .. fileString)
   local modelData = ModelData.newFromVox(voxelFile)
-  local model = Model(modelData)
 
-  return model
+  return modelData
+end
+
+function Entity.loadModel(modelName)
+  return Model(Entity.loadModelData(modelName))
+end
+
+function Entity.modelDataToModel(modelData)
+  return Model(modelData)
 end
 
 return Entity

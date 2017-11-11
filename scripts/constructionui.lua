@@ -14,7 +14,9 @@ function ConstructionUi:init(properties)
   self.timer = Timer.new()
 
   self.mx, self.my = 0, 0
-  self.w, self.h = 50, 50
+  self.w, self.h = 64, 64
+
+  self.blockSize = 32
 
   self.rotation = 0
   self.canRotate = true
@@ -41,9 +43,6 @@ function ConstructionUi:update(dt)
     -- TODO select some building type
     -- TODO Building class
     self.selectedBuilding = PizzaShop
-<<<<<<< Updated upstream
-    self.w, self.h = self.selectedBuilding.model.width, self.selectedBuilding.model.height
-=======
   elseif love.keyboard.isDown('2') then
     self.selectedBuilding = Bank
   elseif love.keyboard.isDown('3') then
@@ -52,10 +51,11 @@ function ConstructionUi:update(dt)
     self.selectedBuilding = Grocery
   elseif love.keyboard.isDown('5') then
     self.selectedBuilding = Street
->>>>>>> Stashed changes
   end
 
   if self.selectedBuilding ~= nil then
+    self.w, self.h = self.selectedBuilding.width, self.selectedBuilding.height
+
     local x, y = self:getMousePosition()
 
     self.canPlace = true
@@ -76,8 +76,7 @@ function ConstructionUi:update(dt)
 
     if love.mouse.isDown(1) and self.canPlace then
       love.graphics.setColor(255, 255, 255)
-
-      Game.entities:add(PizzaShop({x = x, y = y, rotation = self.rotation}))
+      Game.entities:add(self.selectedBuilding({x = x, y = y}))
 
       self.selectedBuilding = nil
     end
@@ -108,25 +107,13 @@ function ConstructionUi:getMousePosition()
   -- Convert mouse coordinates into world coordinates
   local x, y = Game.camera:screenToWorld(self.mx, self.my)
 
-	-- Center x/y coords
-	x = x - self.w / 2
-	y = y - self.h / 2
-
-	local roundedCosine = math.floor(math.cos(self.rotation) + 0.5)
-  print(roundedCosine)
-	if roundedCosine == 0 then
-		x, y = y, -x
-	end
-
-  if roundedCosine == -1 then
-    x, y = -x, -y
-  end
+  -- Center x/y coords
+  x = x - self.w / 2 + self.blockSize / 2
+  y = y - self.h / 2 + self.blockSize / 2
 
   -- Break the coordinates into multiples of 10
-  -- local gridSize = 10
-  --
-  -- x = x - (x % gridSize) + gridSize / 2
-  -- y = y - (y % gridSize) + gridSize / 2
+  x = x - (x % self.blockSize)
+  y = y - (y % self.blockSize)
 
   return x, y
 end

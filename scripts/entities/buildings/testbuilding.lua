@@ -5,29 +5,29 @@ local Building = require 'scripts.entities.buildings.building'
 
 local Base = Building
 
-local modelData = Entity.loadModelData('obj_store_pizza')
+local modelData = Entity.loadModelData('obj_store07')
 
-local PizzaShop = Class {
+local TestBuilding = Class {
   __includes = Base,
   modelData = modelData,
   width = modelData.width,
   height = modelData.height
 }
 
-function PizzaShop:init(properties)
+function TestBuilding:init(properties)
   Base.init(self, properties)
 
   self.model = Entity.modelDataToModel(self.modelData)
 
-  self.type = 'PizzaShop'
+  self.type = 'TestBuilding'
 end
 
-function PizzaShop:update(dt)
+function TestBuilding:update(dt)
   Base.update(self, dt)
 end
 
-function PizzaShop:draw()
+function TestBuilding:draw()
   Base.draw(self)
 end
 
-return PizzaShop
+return TestBuilding
