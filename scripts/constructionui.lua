@@ -29,16 +29,6 @@ function ConstructionUi:update(dt)
 
   self.mx, self.my = love.mouse.getPosition()
 
-  if love.keyboard.isDown('r') then
-    if self.canRotate then
-      self.canRotate = false
-      -- TODO use love.onbuttondown
-      self.timer:after(0.5, function() self.canRotate = true end)
-
-      self.rotation = self.rotation + math.pi / 2
-    end
-  end
-
   if love.keyboard.isDown('1') then
     -- TODO select some building type
     -- TODO Building class
